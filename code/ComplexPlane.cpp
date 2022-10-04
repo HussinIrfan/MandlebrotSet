@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <vector>     
 #include <complex> 
+#include <sstream>
 #include <SFML/Graphics.hpp>
 #include "ComplexPlane.h"
 using namespace sf;
@@ -42,13 +43,31 @@ View ComplexPlane::getView()
 };
 void ComplexPlane::setMouseLocation(Vector2f coord)
 {
-	//m_mouseLocation(coord);
+	m_mouseLocation = coord;
 
 };
-void ComplexPlane::loadText(Text&)
+void ComplexPlane::loadText(Text& text)
 {
+	text.setCharacterSize(20);
+	text.setFillColor(Color::White);
+	text.setPosition(10, 10);
 
+	stringstream x1, y1, x2, y2;
+	float center_x, center_y, mouse_x, mouse_y;
+	x1 << m_view.getCenter().x;
+	x1 >> center_x;
+	y1 << m_view.getCenter().y;
+	y1 >> center_y;
+	x2 << m_mouseLocation.x;
+	x2 >> mouse_x;
+	y2 << m_mouseLocation.y;
+	y2 >> mouse_y;
 
+	text.setString("Mandelbrot Set\nCenter: (" 
+					+to_string(center_x) + "," + to_string(center_y) + ")"
+					+"\nCursor: (" +to_string(mouse_x) + "," +to_string(mouse_y) + ")"
+					+"\nLeft-click to Zoom in\nRight-click to Zoom out");
+	
 };
 size_t ComplexPlane::countIterations(Vector2f coord)
 {

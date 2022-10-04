@@ -21,17 +21,19 @@ int main()
 	ComplexPlane cp(aspectRatio);
 	Text text;
 	Font font;
-	//if (!font.loadFromFile("arial.ttf"))
-	//{
-		// error...
-	//}
+	if (!font.loadFromFile("font/RobotoMono-Medium.ttf"))
+	{
+		cout << "Error loading font..";
+	}
+	text.setFont(font);
+
 
 	VertexArray vArray;
 	vArray.setPrimitiveType(Points);
 	vArray.resize(width*height);
 	
-	enum class state{CALUCLATING, DISPLAYING};
-	state state1 = state::CALUCLATING;
+	enum class state{CALCULATING, DISPLAYING};
+	state state1 = state::CALCULATING;
 
 	Event event;
 	Uint8 r, g, b;
@@ -43,10 +45,40 @@ int main()
 			{
 				window.close();
 			}
+			if (event.type == Event::Closed)
+			{
+				window.close();
+			}
+
+			if (event.type == Event::MouseButtonPressed)
+			{
+				if (event.mouseButton.button == Mouse::Right)
+				{
+					cp.zoomOut();
+					cout << "right button clicked" << endl;
+				}
+				if (event.mouseButton.button == Mouse::Left)
+				{
+					cp.zoomIn();
+					cout << "left button clicked" << endl;
+				}
+
+				cp.setCenter(window.mapPixelToCoords({event.mouseButton.x,event.mouseButton.y}, cp.getView()));
+				state1 = state::CALCULATING;
+				if (state1 == state::CALCULATING)
+					cout << "bool flipped" << endl;
+			}
+
+			if (event.type == Event::MouseMoved)
+			{
+				cp.setMouseLocation(window.mapPixelToCoords({event.mouseMove.x,event.mouseMove.y}, cp.getView()));
+			}
 			
 		}
-		if (state1 == state::CALUCLATING)
+
+		if (state1 == state::CALCULATING)
 		{
+			cout << "calculating" << endl;
 			for (int j = 0; j < width; j++)
 			{
 				for (int i = 0; i < height; i++)
@@ -59,12 +91,15 @@ int main()
 			}
 				
 			state1 = state::DISPLAYING;
+			//cp.loadText(text);
 		}
 
 		if (state1 == state::DISPLAYING)
 		{
+			cp.loadText(text);
 			window.clear();
 			window.draw(vArray);
+			window.draw(text);
 			window.display();
 		}
 	}
