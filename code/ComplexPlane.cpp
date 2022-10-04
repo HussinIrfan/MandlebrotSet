@@ -1,5 +1,4 @@
 #include <iostream>
-#include <iomanip>
 #include <vector>     
 #include <complex> 
 #include <sstream>
@@ -87,32 +86,43 @@ size_t ComplexPlane::countIterations(Vector2f coord)
 };
 void ComplexPlane::iterationsToRGB(size_t iterations, Uint8& r, Uint8& g, Uint8& b) 
 {
-	if (iterations == MAX_ITER)
+	if(iterations == MAX_ITER)
 	{
 		r = 0;
 		g = 0;
 		b = 0;
+
 	}
-	else if (iterations > 50)
+	else if(iterations >=32)
 	{
-		r = 222 - (iterations % 17) * 5;
-		g = 179 - (iterations % 17) * 5;
-		b = 173;
+		r = 0;
+		g = 255;
+		b = 128;
 	}
-	else if (iterations > 30)
+	else if(iterations >=24)
 	{
-		r = 222 - (iterations % 17) * 5;
+		r = 153;
+		g = 255;
+		b = 0;
+	}
+	else if(iterations >=16)
+	{
+		r = 251;
 		g = 0;
-		b = 123;
+		b = 255;
 	}
-	else if (iterations > 15)
+	else if(iterations >= 8)
 	{
-		r = 185 - (iterations % 17) * 5;
-		g = 92 - (iterations % 17) * 5;
-		b = 80;
+		r = 128;
+		g = 0;
+		b = 255;
 	}
 	else
-		r = 59 + (iterations % 17) * 5;
-		g = 20;
-		b = 40;
+	{
+		r = 17;
+		g = 0;
+		b = 255;
+	}
+
+
 };

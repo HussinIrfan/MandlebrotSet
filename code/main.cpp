@@ -1,5 +1,4 @@
 #include <iostream>
-#include <iomanip>
 #include <vector>     
 #include <complex> 
 #include <SFML/Graphics.hpp>
@@ -37,6 +36,7 @@ int main()
 
 	Event event;
 	Uint8 r, g, b;
+	
 	while (window.isOpen())
 	{
 		while (window.pollEvent(event))
