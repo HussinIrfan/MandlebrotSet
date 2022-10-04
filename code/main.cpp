@@ -10,8 +10,8 @@ using namespace sf;
 
 int main()
 {
-	float width = VideoMode::getDesktopMode().width;
-	float height = VideoMode::getDesktopMode().height;
+	float width = VideoMode::getDesktopMode().width/2;
+	float height = VideoMode::getDesktopMode().height/2;
 	float aspectRatio = height / width;
 	
 	VideoMode vm(width, height);
@@ -52,6 +52,8 @@ int main()
 
 			if (event.type == Event::MouseButtonPressed)
 			{
+				cp.setCenter(window.mapPixelToCoords(Mouse::getPosition(window), cp.getView()));
+				
 				if (event.mouseButton.button == Mouse::Right)
 				{
 					cp.zoomOut();
@@ -63,7 +65,7 @@ int main()
 					cout << "left button clicked" << endl;
 				}
 
-				cp.setCenter(window.mapPixelToCoords({event.mouseButton.x,event.mouseButton.y}, cp.getView()));
+				
 				state1 = state::CALCULATING;
 				if (state1 == state::CALCULATING)
 					cout << "bool flipped" << endl;
